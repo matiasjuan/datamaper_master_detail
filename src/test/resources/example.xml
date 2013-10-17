@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patient_lab>
+  <id>2</id>
+  <labs>
+    <lab>
+      <name>lab1</name>
+      <date>2013/04/20</date>
+      <result>ok</result>
+    </lab>
+    <lab>
+      <name>lab2</name>
+      <date>2013/04/22</date>
+      <result>failed</result>
+    </lab>
+    <lab>
+      <name>lab3</name>
+      <date>2013/04/25</date>
+      <result>unknown</result>
+    </lab>
+  </labs>
+</patient_lab>

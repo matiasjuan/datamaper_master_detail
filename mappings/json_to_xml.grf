@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph author="matiasjuan" created="Thu Oct 17 17:59:44 ART 2013" guiVersion="3.3.2" id="1382043902933" licenseCode="CLPXDMULES37812333BY" licenseType="Commercial" modified="Thu Oct 17 17:59:44 ART 2013" modifiedBy="matiasjuan" name="json_to_xml_grf" preview-file="${Project_Home}/src/test/resources/example.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __sourcePath="{}/array" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Input" id="c518890a-b289-4b2e-a75d-abe017fb99a6">
+<Record fieldDelimiter="|" name="array" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" label="__id" name="__id" type="string"/>
+<Field __sourcePath="{}/array/patientid" containerType="SINGLE" label="patientid" name="patientid" type="number"/>
+<Field __sourcePath="{}/array/lab_x005fname" containerType="SINGLE" label="lab_name" name="lab_name" type="string"/>
+<Field __sourcePath="{}/array/date" containerType="SINGLE" label="date" name="date" type="string"/>
+<Field __sourcePath="{}/array/result" containerType="SINGLE" label="result" name="result" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/patient_lab/labs/lab" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="479270b8-58c7-4cb7-9050-3121865ad478" _parent_id="__parent_id" _type="Output" id="f849e5b8-fb70-439f-95a4-d12fa3d9b9ec">
+<Record fieldDelimiter="|" name="lab" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/date" containerType="SINGLE" label="date" name="date" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/result" containerType="SINGLE" label="result" name="result" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/patient_lab" _dataStructure="OBJECT" _id="__id" _type="Output" id="479270b8-58c7-4cb7-9050-3121865ad478">
+<Record fieldDelimiter="|" name="patient_lab" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/patient_lab/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiHeight="0" guiName="XML WRITER" guiWidth="0" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER" xmlSchemaURL="./src/test/resources/patient_lab.xsd">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:element clover:name="patient_lab" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="1">
+  <id>$1.id</id>
+  <labs>
+    <lab clover:inPort="0" clover:key="__parent_id" clover:parentKey="__id">
+      <name>$0.name</name>
+      <date>$0.date</date>
+      <result>$0.result</result>
+    </lab>
+  </labs>
+</clover:element>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[patient_lab]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiHeight="0" guiName="JSON READER" guiWidth="0" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context xpath=".">
+    <Context outPort="1" sequenceField="__id" xpath="array[1]">
+      <Mapping cloverField="patientid" trim="true" xpath="patientid"/>
+      <Mapping cloverField="lab_name" trim="true" xpath="lab_x005fname"/>
+      <Mapping cloverField="date" trim="true" xpath="date"/>
+      <Mapping cloverField="result" trim="true" xpath="result"/>
+    </Context>
+    <Context outPort="0" sequenceField="__id" xpath="array">
+      <Mapping cloverField="patientid" trim="true" xpath="patientid"/>
+      <Mapping cloverField="lab_name" trim="true" xpath="lab_x005fname"/>
+      <Mapping cloverField="date" trim="true" xpath="date"/>
+      <Mapping cloverField="result" trim="true" xpath="result"/>
+    </Context>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[./src/test/resources/example.json]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="Foreach 'array' -&gt; 'patient'" guiWidth="0" guiX="460" guiY="120" id="REFORMAT0" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.patientid;
+//END -> DO NOT REMOVE
+output.id = (isnull(input.patientid) ? null : double2integer(input.patientid));]]></attr>
+<attr name="__xpath_cond"><![CDATA[1]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="Foreach 'array' -&gt; 'lab'" guiWidth="0" guiX="460" guiY="120" id="REFORMAT1" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+output.__parent_id = input.patientid;
+//END -> DO NOT REMOVE
+output.name = input.lab_name;
+output.date = input.date;
+output.result = input.result;]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="c518890a-b289-4b2e-a75d-abe017fb99a6" outPort="Port 0 (out)" toNode="REFORMAT1:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:1" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="c518890a-b289-4b2e-a75d-abe017fb99a6" outPort="Port 1 (out)" toNode="REFORMAT0:0"/>
+<Edge debugMode="true" fromNode="REFORMAT0:0" guiBendpoints="" id="Edge1" inPort="Port 1 (in)" metadata="479270b8-58c7-4cb7-9050-3121865ad478" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:1"/>
+<Edge debugMode="true" fromNode="REFORMAT1:0" guiBendpoints="" id="Edge3" inPort="Port 0 (in)" metadata="f849e5b8-fb70-439f-95a4-d12fa3d9b9ec" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+</Phase>
+</Graph>
