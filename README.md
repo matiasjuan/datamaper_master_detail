@@ -1,6 +1,7 @@
 Datamapper example
 ====
-
+In this example we can see how to generate an XML file with master-detail relationships (nodes and subnodes).
+The source data is stored in the same table; each record contains fields for the parent and fields for the child.
 
 Input
 ----
