@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph author="matiasjuan" created="Fri Oct 18 15:50:00 ART 2013" guiVersion="3.3.2" id="1382123138814" licenseCode="CLPXDMULES37812333BY" licenseType="Commercial" modified="Fri Oct 18 15:50:00 ART 2013" modifiedBy="matiasjuan" name="jaja_grf" preview-file="${Project_Home}/src/test/resources/example2.groovy" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __sourcePath="{}/patient_lab/labs/lab" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="a8dbaee9-17e4-4f99-bfd2-3bdc3d107d2c" _parent_id="__parent_id" _type="Output" id="0c77549c-0d9e-424b-917a-5b45a1fea05f">
+<Record fieldDelimiter="|" name="lab" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/date" containerType="SINGLE" label="date" name="date" type="string"/>
+<Field __sourcePath="{}/patient_lab/labs/lab/result" containerType="SINGLE" label="result" name="result" type="string"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/mapMetadata" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Input" id="a7603381-4319-406f-b9b5-efcc5431d6ec">
+<Record fieldDelimiter="|" name="mapMetadata" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/mapMetadata/patientid" containerType="SINGLE" label="patientid" name="patientid" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/patient_lab" _dataStructure="OBJECT" _id="__id" _type="Output" id="a8dbaee9-17e4-4f99-bfd2-3bdc3d107d2c">
+<Record fieldDelimiter="|" name="patient_lab" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/patient_lab/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __sourcePath="{}/mapMetadata/values" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="a7603381-4319-406f-b9b5-efcc5431d6ec" _parent_id="__parent_id" _type="Input" id="3b69a426-537e-4419-8b1b-3f5bf4445c44">
+<Record fieldDelimiter="|" name="values" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __sourcePath="{}/mapMetadata/values/patientid" containerType="SINGLE" label="patientid" name="patientid" type="integer"/>
+<Field __sourcePath="{}/mapMetadata/values/lab_name" containerType="SINGLE" label="lab_name" name="lab_name" type="string"/>
+<Field __sourcePath="{}/mapMetadata/values/date" containerType="SINGLE" label="date" name="date" type="string"/>
+<Field __sourcePath="{}/mapMetadata/values/result" containerType="SINGLE" label="result" name="result" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiHeight="0" guiName="Map&lt;k,v&gt; READER" guiWidth="0" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="patientid" trim="true" xpath="patientid"/>
+  <Context generatedKey="__parent_id" outPort="1" parentKey="__id" sequenceField="__id" xpath="values">
+    <Mapping cloverField="patientid" trim="true" xpath="patientid"/>
+    <Mapping cloverField="lab_name" trim="true" xpath="lab_name"/>
+    <Mapping cloverField="date" trim="true" xpath="date"/>
+    <Mapping cloverField="result" trim="true" xpath="result"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/src/test/resources/example2.groovy]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiHeight="0" guiName="XML WRITER" guiWidth="0" guiX="900" guiY="20" id="EXT_XML_WRITER0" type="EXT_XML_WRITER" xmlSchemaURL="./src/test/resources/patient_lab.xsd">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:element clover:name="patient_lab" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <id>$0.id</id>
+  <labs>
+    <lab clover:inPort="1" clover:key="__parent_id" clover:parentKey="__id">
+      <name>$1.name</name>
+      <date>$1.date</date>
+      <result>$1.result</result>
+    </lab>
+  </labs>
+</clover:element>]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[patient_lab]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="Foreach 'mapMetadata' -&gt; 'patient_lab'" guiWidth="0" guiX="460" guiY="20" id="REFORMAT0" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.id = input.patientid;]]></attr>
+</Node>
+<Node enabled="enabled" guiHeight="0" guiName="Foreach 'values' -&gt; 'lab'" guiWidth="0" guiX="460" guiY="120" id="REFORMAT1" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+output.__parent_id = input.__parent_id;
+//END -> DO NOT REMOVE
+output.date = input.date;
+output.result = input.result;
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="a7603381-4319-406f-b9b5-efcc5431d6ec" outPort="Port 0 (out)" toNode="REFORMAT0:0"/>
+<Edge debugMode="true" fromNode="BEAN_READER0:1" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="3b69a426-537e-4419-8b1b-3f5bf4445c44" outPort="Port 1 (out)" toNode="REFORMAT1:0"/>
+<Edge debugMode="true" fromNode="REFORMAT0:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="a8dbaee9-17e4-4f99-bfd2-3bdc3d107d2c" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+<Edge debugMode="true" fromNode="REFORMAT1:0" guiBendpoints="" id="Edge3" inPort="Port 1 (in)" metadata="0c77549c-0d9e-424b-917a-5b45a1fea05f" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:1"/>
+</Phase>
+</Graph>
