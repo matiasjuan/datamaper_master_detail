@@ -3,9 +3,11 @@ Datamapper example
 In this example we can see how to generate an XML file with master-detail relationships (nodes and subnodes).
 The source data is stored in the same table; each record contains fields for the parent and fields for the child.
 
+Example1
+====
+
 Input
 ----
-
 JSon input example
 ```
 [
@@ -32,7 +34,6 @@ JSon input example
 
 Output
 ----
-
 XML output example
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -93,3 +94,57 @@ output.__id = input.__id;
 output.__parent_id = input.patientid;
 ```
 
+Example 2
+====
+Input
+----
+Collection of maps
+```
+[
+  [
+  	"patientid": 2,
+  	"lab_name": "2lab1",
+  	"date": "2013/04/20",
+  	"result": "ok"
+  ],
+  [
+  	"patientid": 2,
+  	"lab_name": "2lab2",
+  	"date": "2013/04/22",
+  	"result": "failed"
+  ],
+  [
+  	"patientid": 2,
+  	"lab_name": "2lab3",
+  	"date": "2013/04/25",
+  	"result": "unknown"
+  ]
+]
+```
+
+Output
+----
+XML output example
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<patient_lab>
+  <id>2</id>
+  <labs>
+    <lab>
+      <name>lab1</name>
+      <date>2013/04/20</date>
+      <result>ok</result>
+    </lab>
+    <lab>
+      <name>lab2</name>
+      <date>2013/04/22</date>
+      <result>failed</result>
+    </lab>
+    <lab>
+      <name>lab3</name>
+      <date>2013/04/25</date>
+      <result>unknown</result>
+    </lab>
+  </labs>
+</patient_lab>
+```
